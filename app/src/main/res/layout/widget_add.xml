@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="8dp" android:layout_margin="0dp">
+
+    <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/widget_round_button"
+            android:src="@drawable/baseline_add_circle_black_18dp"
+            android:layout_gravity="end"
+            android:id="@+id/addNewBtn"/>
+
+</FrameLayout>

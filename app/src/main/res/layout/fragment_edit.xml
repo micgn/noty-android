@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:gravity="start|top"
+            android:ems="10"
+            android:background="@drawable/note_background"
+            android:layout_margin="15dp"
+            android:padding="10dp"
+            android:id="@+id/noteTextInput" android:layout_weight="1"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp" android:layout_weight="1">
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dueDatePicker"
+                android:src="@drawable/baseline_calendar_today_black_18dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/clearDueDate"
+                android:src="@drawable/baseline_remove_circle_outline_black_18dp"/>
+
+        <EditText
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/dueDate"
+                android:autofillHints="no"
+                android:focusable="false"
+                android:textAlignment="center"
+                android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px" android:layout_weight="1" android:id="@+id/linearLayout">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/deleteBtn"
+                android:src="@drawable/baseline_delete_black_18dp"/>
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cancelBtn"
+                android:src="@drawable/baseline_close_black_18dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/okBtn"
+                android:src="@drawable/baseline_check_black_18dp"/>
+    </LinearLayout>
+</LinearLayout>
+
+

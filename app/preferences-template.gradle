@@ -1,0 +1,9 @@
+// rename to preferences.gradle and set values
+
+android {
+    defaultConfig {
+        buildConfigField("String", "SERVER_URL", "\"SET ME\"")
+        buildConfigField("String", "SERVER_USER", "\"SET ME\"")
+        buildConfigField("String", "SERVER_PASSWORD", "\"SET ME\"")
+    }
+}
