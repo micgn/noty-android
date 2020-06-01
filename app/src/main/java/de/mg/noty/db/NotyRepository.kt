@@ -11,7 +11,10 @@ import de.mg.noty.db.dao.NotesTagsJoinDao
 import de.mg.noty.db.dao.TagDao
 import de.mg.noty.external.CallServerWorkManager
 import de.mg.noty.external.dto.DtoMapper
+import de.mg.noty.external.dto.req.AllContentDto
+import de.mg.noty.external.dto.req.NoteDeltaDto
 import de.mg.noty.external.dto.req.NoteTagDeltaDto
+import de.mg.noty.external.dto.req.TagDeltaDto
 import de.mg.noty.model.Note
 import de.mg.noty.model.NotesTagsJoin
 import de.mg.noty.model.Tag
@@ -90,12 +93,15 @@ class NotyRepository(application: Application) {
 
     private fun filterAndSortNotes(notesV: List<Note>, tagsV: List<Tag>): List<Note> {
 
-        fun beforeOrEqualNow(date: LocalDate) = date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now())
+        fun beforeOrEqualNow(date: LocalDate) =
+            date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now())
 
-        fun sortOrder(note: Note): Long = if (note.dueDate != null && beforeOrEqualNow(note.dueDate!!))
-            note.dueDate!!.plusYears(500).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
-        else
-            note.lastEdit
+        fun sortOrder(note: Note): Long =
+            if (note.dueDate != null && beforeOrEqualNow(note.dueDate!!))
+                note.dueDate!!.plusYears(500).atStartOfDay().toInstant(ZoneOffset.UTC)
+                    .toEpochMilli()
+            else
+                note.lastEdit
 
         val filteredNotes = notesV
             .filter { note ->
@@ -233,5 +239,20 @@ class NotyRepository(application: Application) {
     fun getSimilars(input: String): List<String> =
         similarityService.get(input, allNotes.value?.map { it.text })
 
+
+    fun overwriteServerContent() {
+        val notesV = allNotes.value
+        val tagsV = allTags.value
+        val joinsV = joins.value
+        if (notesV == null || tagsV == null || joinsV == null)
+            throw IllegalStateException()
+
+        val content = AllContentDto(
+            noteCreateDeltas = notesV.map { NoteDeltaDto(it.id, it.text, DtoMapper.map(it.dueDate)) },
+            tagCreateDeltas = tagsV.map { TagDeltaDto(it.id, it.name) },
+            noteTagCreateDeltas = joinsV.map { NoteTagDeltaDto(it.noteId, it.tagId) })
+
+        callServer.overwriteAll(content)
+    }
 
 }

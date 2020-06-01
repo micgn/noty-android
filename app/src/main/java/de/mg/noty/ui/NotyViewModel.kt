@@ -64,4 +64,8 @@ class NotyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getSimilars(input: String): List<String> = repo.getSimilars(input)
 
+    fun overwriteServerContent() {
+        repo.overwriteServerContent()
+    }
+
 }

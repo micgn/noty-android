@@ -13,6 +13,12 @@
           android:orderInCategory="100"
           app:showAsAction="never"/>
 
+    <item
+            android:id="@+id/action_overwrite"
+            android:title="Overwrite all server content"
+            android:orderInCategory="100"
+            app:showAsAction="never" />
+
     <item android:id="@+id/action_about"
           android:title="About"
           android:orderInCategory="100"

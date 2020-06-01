@@ -1,10 +1,12 @@
 package de.mg.noty.external
 
 import android.content.Context
+import android.os.AsyncTask
 import android.util.Log
 import androidx.work.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.mg.noty.db.NotyDatabase
+import de.mg.noty.external.dto.req.AllContentDto
 import de.mg.noty.external.dto.req.NoteDeltaDto
 import de.mg.noty.external.dto.req.NoteTagDeltaDto
 import de.mg.noty.external.dto.req.TagDeltaDto
@@ -53,6 +55,28 @@ class CallServerWorkManager {
         enqueueServerCall("GET", "deltas")
     }
 
+    fun overwriteAll(dto: AllContentDto) {
+        // directly call the server without WorkManager
+
+        Background {
+
+            try {
+                val jsonPayload = mapper.writeValueAsString(dto)
+                Log.d("CallServerWorkManager", "overwrite: sending ${jsonPayload.length} data")
+                HttpClientService.send("POST", "all", jsonPayload, 0)
+            } catch (e: Exception) {
+                Log.e("CallServerWorkManager", "error while sending", e)
+            }
+        }.execute()
+    }
+
+    private class Background(val callback: () -> Unit) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            callback()
+            return null
+        }
+    }
+
     fun getQueueInfo(): String? {
         var result: String? = null
         runBlocking {
@@ -86,6 +110,7 @@ class CallServerWorkManager {
 
         val jsonPayload =
             if (requestEntity != null) mapper.writeValueAsString(requestEntity) else null
+        Log.d("CallServerWorkManager", "sending ${jsonPayload?.length} data")
         val data = workDataOf(
             "method" to httpMethod,
             "path" to path, "json" to jsonPayload

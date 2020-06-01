@@ -21,7 +21,12 @@ object DtoMapper {
         if (date == null) null else LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
     fun map(note: Note): NoteDeltaDto =
-        NoteDeltaDto(noteId = note.id, text = note.text, dueDate = map(note.dueDate), updated = note.lastEdit)
+        NoteDeltaDto(
+            noteId = note.id,
+            text = note.text,
+            dueDate = map(note.dueDate),
+            updated = note.lastEdit
+        )
 
     fun map(tag: Tag): TagDeltaDto =
         TagDeltaDto(tagId = tag.id, name = tag.name, updated = tag.lastEdit)
@@ -29,7 +34,7 @@ object DtoMapper {
     fun map(noteTag: NotesTagsJoin): NoteTagDeltaDto =
         NoteTagDeltaDto(noteId = noteTag.noteId, tagId = noteTag.tagId, updated = noteTag.lastEdit)
 
-    private fun map(date: LocalDate?): String? =
+    fun map(date: LocalDate?): String? =
         if (date == null) null else DateTimeFormatter.ofPattern("yyyy-MM-dd").format(date)
 
 }

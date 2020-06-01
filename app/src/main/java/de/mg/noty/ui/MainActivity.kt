@@ -15,8 +15,7 @@ import android.view.View
 import android.widget.Switch
 import de.mg.noty.BuildConfig
 import de.mg.noty.R
-import de.mg.noty.R.id.action_about
-import de.mg.noty.R.id.action_syncstate
+import de.mg.noty.R.id.*
 import de.mg.noty.external.CallServerWorkManager
 import de.mg.noty.model.Note
 import de.mg.noty.model.Tag
@@ -24,6 +23,7 @@ import de.mg.noty.notifications.NotificationScheduler
 import de.mg.noty.ui.NotyViewModel.SelectedViewEnum.NoteEdit
 import de.mg.noty.ui.NotyViewModel.SelectedViewEnum.Overview
 import de.mg.noty.ui.edit.EditNoteFragment
+import de.mg.noty.ui.misc.OverwriteServerContentDialog
 import de.mg.noty.ui.misc.SyncStateDialog
 import de.mg.noty.ui.noteslist.NotesListFragment
 import de.mg.noty.ui.noteslist.OnNoteListItemListener
@@ -131,6 +131,13 @@ class MainActivity : AppCompatActivity(), OnTagListItemListener, OnNoteListItemL
             action_about -> true
             action_syncstate -> {
                 SyncStateDialog.open(this, viewModel)
+                true
+            }
+            action_overwrite -> {
+                OverwriteServerContentDialog.execute(this, viewModel)
+                true
+            }
+            action_about -> {
                 true
             }
             /*app_bar_notDueSwitch -> {
